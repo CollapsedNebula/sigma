@@ -53,5 +53,16 @@ export default function RootLayout() {
         headerLeft: () => null
       }}
     />
+    <Stack.Screen
+      name="Dashboard"
+      options={{
+        title: "대시보드",
+        headerTitleStyle: {
+          fontFamily: 'NoonnuBasicGothicRegular',
+          fontWeight: 'bold',
+          fontSize: 24
+        },
+        headerLeft: () => null
+      }} />
   </Stack>;
 }
