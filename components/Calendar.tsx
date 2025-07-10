@@ -1,0 +1,111 @@
+import { useState } from "react";
+import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
+
+const SCREEN_WIDTH = Math.min(Dimensions.get("window").width, 400);
+const NUM_COLUMNS = 7;
+const NUM_ROWS = 6;
+const ITEM_MARGIN = 2;
+const ITEM_SIZE = (SCREEN_WIDTH - ITEM_MARGIN * 2 * NUM_COLUMNS) / NUM_COLUMNS;
+
+interface CalendarProps {
+  year: number;
+  month: number;
+}
+
+export default function Calendar({ year, month }: CalendarProps) {
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+
+  const firstDayOfWeek = new Date(year, month, 1).getDay();
+  const lastDate = new Date(year, month + 1, 0).getDate();
+
+  const prevMonth = month === 0 ? 11 : month - 1;
+  const prevYear = month === 0 ? year - 1 : year;
+  const prevLastDate = new Date(prevYear, prevMonth + 1, 0).getDate();
+
+  const nextMonth = month === 11 ? 0 : month + 1;
+  const nextYear = month === 11 ? year + 1 : year;
+
+  const daysArray = Array(NUM_COLUMNS * NUM_ROWS).fill({ day: "", type: "empty" });
+
+  for (let i = 0; i < firstDayOfWeek; i++) {
+    daysArray[i] = {
+      day: prevLastDate - firstDayOfWeek + i + 1,
+      type: "prev",
+    };
+  }
+  for (let d = 1; d <= lastDate; d++) {
+    daysArray[firstDayOfWeek + d - 1] = {
+      day: d,
+      type: "current",
+    };
+  }
+  const nextDaysStart = firstDayOfWeek + lastDate;
+  for (let i = nextDaysStart; i < NUM_COLUMNS * NUM_ROWS; i++) {
+    daysArray[i] = {
+      day: i - nextDaysStart + 1,
+      type: "next",
+    };
+  }
+
+  return (
+    <View style={styles.container}>
+      {daysArray.map((item, i) => {
+        const col = i % NUM_COLUMNS;
+        let textColor = "#fff";
+        let textOpacity = 1;
+        if (item.type !== "current") textOpacity = 0.2;
+
+        const isHovered = hoveredIdx === i;
+        return (
+          <Pressable
+            key={i}
+            onPressIn={() => setHoveredIdx(i)}
+            onPressOut={() => setHoveredIdx(null)}
+            style={[
+              styles.item,
+              {
+                backgroundColor:
+                  col === 0
+                    ? "#b44c4c"
+                    : col === 6
+                    ? "#4a6fa5"
+                    : "#212121",
+                opacity: isHovered ? 0.7 : 1,
+                zIndex: isHovered ? 1 : 0,
+              },
+            ]}
+          >
+            <Text style={[styles.dayText, { color: textColor, opacity: textOpacity }]}>
+              {item.day}
+            </Text>
+          </Pressable>
+        );
+      })}
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    alignItems: "center",
+    width: SCREEN_WIDTH,
+  },
+  item: {
+    width: ITEM_SIZE,
+    height: ITEM_SIZE,
+    margin: ITEM_MARGIN,
+    borderRadius: 8,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  dayText: {
+    color: "#fff",
+    fontSize: 30,
+    fontWeight: "bold",
+    fontFamily: "NoonnuBasicGothicRegular",
+    marginTop: 5,
+  },
+});

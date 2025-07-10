@@ -1,7 +1,11 @@
+import Calendar from "@/components/Calendar";
 import { View } from "react-native";
 import { ThemedText } from "../components/ThemedText";
+import { useCalendar } from "./CalendarContext";
 
 export default function Dashboard() {
+  const { year, month } = useCalendar();
+
   return (
     <View
       style={{
@@ -10,7 +14,12 @@ export default function Dashboard() {
         alignItems: "center",
       }}
     >
-      <ThemedText>대시보드</ThemedText>
+      <ThemedText
+        style={{
+          paddingBottom: 24
+        }}
+      >대시보드</ThemedText>
+      <Calendar year={year} month={month} />
     </View>
   );
 }
