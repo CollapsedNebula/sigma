@@ -8,8 +8,9 @@ export function ThemedInput(props: ThemedInputProps) {
     
   return (
     <TextInput
-      {...props}
-      style={[styles.input, style]}
+      {...otherProps}
+      style={[styles.input, style, { fontFamily: 'NoonnuBasicGothicRegular' }]}
+      placeholderTextColor="#aaa"
     />
   );
 }
@@ -27,7 +28,8 @@ const styles = StyleSheet.create({
     maxWidth: 300,
     borderColor: 'gray',
     borderWidth: 1,
-    paddingHorizontal: 10,
     borderRadius: 20,
+    paddingLeft: 20,
+    paddingRight: 20
   },
 });

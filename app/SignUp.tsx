@@ -9,8 +9,8 @@ export default function SignIn() {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSignIn = () => {
-    console.log("로그인 시도:", { id, password });
+  const handleSignUp = () => {
+    console.log("회원가입 시도:", { id, password });
   }
   
   return (
@@ -37,12 +37,12 @@ export default function SignIn() {
         secureTextEntry
         keyboardType="default"
       />
-      <Link href="/SignUp" style={{ padding: 8}}>
-        <ThemedText style={{ color: '#4B72FA', marginTop: 16, fontSize: 16}}>계정이 없다면 회원가입</ThemedText>
+      <Link href="/SignIn" style={{ padding: 8 }}>
+        <ThemedText style={{ color: '#4B72FA', marginTop: 16, fontSize: 16 }}>이미 계정이 있다면 로그인</ThemedText>
       </Link>
       <ThemedButton
-        title="로그인"
-        onPress={handleSignIn}
+        title="회원가입"
+        onPress={handleSignUp}
         disabled={!id || !password}
         />
     </View>

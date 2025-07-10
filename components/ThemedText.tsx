@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, TextInputProps } from 'react-native';
+import { StyleSheet, Text, TextProps } from 'react-native';
 
-interface ThemedTextProps extends TextInputProps {}
+interface ThemedTextProps extends TextProps {}
 
 export function ThemedText(props: ThemedTextProps) {
   const { style, ...otherProps } = props;

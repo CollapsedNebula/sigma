@@ -38,7 +38,20 @@ export default function RootLayout() {
           fontFamily: 'NoonnuBasicGothicRegular',
           fontWeight: 'bold',
           fontSize: 24
-        }
+        },
+        headerLeft: () => null
       }} />
+    <Stack.Screen
+      name="SignUp"
+      options={{
+        title: "회원가입",
+        headerTitleStyle: {
+          fontFamily: 'NoonnuBasicGothicRegular',
+          fontWeight: 'bold',
+          fontSize: 24
+        },
+        headerLeft: () => null
+      }}
+    />
   </Stack>;
 }
