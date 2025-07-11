@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Pressable, StyleSheet, View } from "react-native";
+import { ThemedText } from "./ThemedText";
 
 const SCREEN_WIDTH = Math.min(Dimensions.get("window").width, 400);
 const NUM_COLUMNS = 7;
@@ -13,7 +14,7 @@ interface CalendarProps {
   onDayPress: (dateTag: string) => void;
 }
 
-export default function Calendar({ year, month, onDayPress }: CalendarProps) { // 변경: onDayPress 프롭 받기
+export default function Calendar({ year, month, onDayPress }: CalendarProps) {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
   const firstDayOfWeek = new Date(year, month, 1).getDay();
@@ -57,6 +58,13 @@ export default function Calendar({ year, month, onDayPress }: CalendarProps) { /
   const formatDay = (day: number) => String(day).padStart(2, "0");
   const formatMonth = (month: number) => String(month + 1).padStart(2, "0");
 
+  const today = new Date();
+  const todayYear = today.getFullYear();
+  const todayMonth = today.getMonth();
+  const todayDay = today.getDate();
+  const currentDateTag = `${todayYear}${formatMonth(todayMonth)}${formatDay(todayDay)}`;
+
+
   return (
     <View style={styles.container}>
       {daysArray.map((item, i) => {
@@ -71,6 +79,9 @@ export default function Calendar({ year, month, onDayPress }: CalendarProps) { /
         if (item.type !== 'empty' && item.year !== undefined && item.month !== undefined && item.day !== '') {
           dateTag = `${item.year}${formatMonth(item.month)}${formatDay(item.day)}`;
         }
+
+        const isToday = item.type === 'current' && dateTag === currentDateTag;
+
 
         return (
           <Pressable
@@ -93,12 +104,14 @@ export default function Calendar({ year, month, onDayPress }: CalendarProps) { /
                     : "#212121",
                 opacity: isHovered ? 0.7 : 1,
                 zIndex: isHovered ? 1 : 0,
+                borderColor: isToday ? "#4B72FA" : "transparent",
+                borderWidth: isToday ? 4 : 0,
               },
             ]}
           >
-            <Text style={[styles.dayText, { color: textColor, opacity: textOpacity }]}>
+            <ThemedText style={[styles.dayText, { color: textColor, opacity: textOpacity }]}>
               {item.day}
-            </Text>
+            </ThemedText>
           </Pressable>
         );
       })}
@@ -126,7 +139,6 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 30,
     fontWeight: "bold",
-    fontFamily: "NoonnuBasicGothicRegular",
     marginTop: 5,
   },
 });
