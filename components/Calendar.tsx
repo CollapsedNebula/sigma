@@ -1,4 +1,3 @@
-// Calendar.tsx
 import { useState } from "react";
 import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 
@@ -11,7 +10,6 @@ const ITEM_SIZE = (SCREEN_WIDTH - ITEM_MARGIN * 2 * NUM_COLUMNS) / NUM_COLUMNS;
 interface CalendarProps {
   year: number;
   month: number;
-  // 변경: onDayPress 프롭 추가
   onDayPress: (dateTag: string) => void;
 }
 
@@ -81,7 +79,6 @@ export default function Calendar({ year, month, onDayPress }: CalendarProps) { /
             onPressOut={() => setHoveredIdx(null)}
             onPress={() => {
               if (item.type !== 'empty') {
-                // 변경: console.log 대신 onDayPress 콜백 호출
                 onDayPress(dateTag);
               }
             }}
