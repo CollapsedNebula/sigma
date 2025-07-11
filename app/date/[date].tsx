@@ -1,3 +1,4 @@
+import { ThemedButton } from '@/components/ThemedButton';
 import { ThemedText } from '@/components/ThemedText';
 import { useLocalSearchParams } from 'expo-router';
 import React from 'react';
@@ -5,13 +6,21 @@ import { StyleSheet, View } from 'react-native';
 
 export default function DateDetailScreen() {
   const { date } = useLocalSearchParams();
-
   const formattedDate = typeof date === 'string' && date ? `${date.substring(0, 4)}년 ${parseInt(date.substring(4, 6), 10)}월 ${parseInt(date.substring(6, 8), 10)}일` : '날짜 없음';
+
+  const handleImageUpload = () => {
+    alert(`${formattedDate}의 사진 업로드`);
+  };
 
   return (
     <View style={styles.container}>
       <ThemedText style={styles.text}>{formattedDate}</ThemedText>
-      <ThemedText style={styles.description}>이곳에 이 날짜에 대한 상세 정보를 표시합니다.</ThemedText>
+      <ThemedText style={styles.description}>
+        사진 없음</ThemedText>
+      <ThemedButton
+        title="사진 업로드"
+        onPress={() => handleImageUpload()}
+      />
     </View>
   );
 }
