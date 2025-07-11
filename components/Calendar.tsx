@@ -1,3 +1,4 @@
+// Calendar.tsx
 import { useState } from "react";
 import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 
@@ -10,9 +11,11 @@ const ITEM_SIZE = (SCREEN_WIDTH - ITEM_MARGIN * 2 * NUM_COLUMNS) / NUM_COLUMNS;
 interface CalendarProps {
   year: number;
   month: number;
+  // 변경: onDayPress 프롭 추가
+  onDayPress: (dateTag: string) => void;
 }
 
-export default function Calendar({ year, month }: CalendarProps) {
+export default function Calendar({ year, month, onDayPress }: CalendarProps) { // 변경: onDayPress 프롭 받기
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
   const firstDayOfWeek = new Date(year, month, 1).getDay();
@@ -31,12 +34,16 @@ export default function Calendar({ year, month }: CalendarProps) {
     daysArray[i] = {
       day: prevLastDate - firstDayOfWeek + i + 1,
       type: "prev",
+      year: prevYear,
+      month: prevMonth,
     };
   }
   for (let d = 1; d <= lastDate; d++) {
     daysArray[firstDayOfWeek + d - 1] = {
       day: d,
       type: "current",
+      year: year,
+      month: month,
     };
   }
   const nextDaysStart = firstDayOfWeek + lastDate;
@@ -44,8 +51,13 @@ export default function Calendar({ year, month }: CalendarProps) {
     daysArray[i] = {
       day: i - nextDaysStart + 1,
       type: "next",
+      year: nextYear,
+      month: nextMonth,
     };
   }
+
+  const formatDay = (day: number) => String(day).padStart(2, "0");
+  const formatMonth = (month: number) => String(month + 1).padStart(2, "0");
 
   return (
     <View style={styles.container}>
@@ -56,11 +68,23 @@ export default function Calendar({ year, month }: CalendarProps) {
         if (item.type !== "current") textOpacity = 0.2;
 
         const isHovered = hoveredIdx === i;
+
+        let dateTag = '';
+        if (item.type !== 'empty' && item.year !== undefined && item.month !== undefined && item.day !== '') {
+          dateTag = `${item.year}${formatMonth(item.month)}${formatDay(item.day)}`;
+        }
+
         return (
           <Pressable
             key={i}
             onPressIn={() => setHoveredIdx(i)}
             onPressOut={() => setHoveredIdx(null)}
+            onPress={() => {
+              if (item.type !== 'empty') {
+                // 변경: console.log 대신 onDayPress 콜백 호출
+                onDayPress(dateTag);
+              }
+            }}
             style={[
               styles.item,
               {

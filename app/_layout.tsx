@@ -108,6 +108,16 @@ export default function RootLayout() {
             },
             headerLeft: () => null
           }} />
+        <Stack.Screen
+          name="date/[date]"
+          options={{
+            headerTitle: () => null,
+            headerTitleStyle: {
+              fontFamily: 'NoonnuBasicGothicRegular',
+              fontWeight: 'bold',
+              fontSize: 24
+            }
+          }} />
       </Stack>
     </CalendarContext.Provider>
   );
