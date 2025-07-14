@@ -31,10 +31,7 @@ const ImagePicker: React.FC<Props> = ({ onImageSelected, formattedDate }) => {
 
     return (
         <View style={styles.container}>
-            <ThemedButton
-                title="사진 선택"
-                onPress={() => selectImage()}
-                />
+            <ThemedButton title="사진 선택" onPress={selectImage} />
             {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
             <ThemedInput
                 onChangeText={setImgInput}
@@ -43,11 +40,7 @@ const ImagePicker: React.FC<Props> = ({ onImageSelected, formattedDate }) => {
                 keyboardType="default"
                 style={{ marginTop: 12 }}
             />
-            <ThemedButton
-                title="사진 업로드"
-                onPress={() => handleImageUpload()}
-                disabled={!imageUri}
-            />
+            <ThemedButton title="사진 업로드" onPress={() => handleImageUpload()} disabled={!imageUri} />
         </View>
     );
 };
@@ -55,10 +48,14 @@ const ImagePicker: React.FC<Props> = ({ onImageSelected, formattedDate }) => {
 const styles = StyleSheet.create({
     container: {
         alignItems: "center",
+        width: "100%",
+        height: "100%",
+        maxHeight: 400,
+        maxWidth: 400,
     },
     image: {
-        width: '80%',
-        height: '80%',
+        width: "80%",
+        height: "80%",
         marginTop: 20,
         borderRadius: 10,
     },
