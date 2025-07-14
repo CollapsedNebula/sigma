@@ -1,9 +1,8 @@
-import { ThemedButton } from "@/components/ThemedButton";
+import ImagePicker from "@/components/ImagePicker";
 import { ThemedText } from "@/components/ThemedText";
 import { useLocalSearchParams } from "expo-router";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import ImagePicker from "../../components/ImagePIcker";
 
 export default function DateDetailScreen() {
     const { date } = useLocalSearchParams();
@@ -15,15 +14,10 @@ export default function DateDetailScreen() {
               )}일`
             : "날짜 없음";
 
-    const handleImageUpload = () => {
-        alert(`${formattedDate}의 사진 업로드`);
-    };
-
     return (
         <View style={styles.container}>
             <ThemedText style={styles.text}>{formattedDate}</ThemedText>
-            <ImagePicker />
-            <ThemedButton title="사진 업로드" onPress={() => handleImageUpload()} />
+            <ImagePicker formattedDate={formattedDate} />
         </View>
     );
 }

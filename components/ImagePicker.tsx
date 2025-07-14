@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { Button, Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import { launchImageLibrary } from "react-native-image-picker";
+import { ThemedButton } from "./ThemedButton";
 import { ThemedInput } from "./ThemedInput";
 
 type Props = {
     onImageSelected?: (uri: string) => void;
+    formattedDate?: string;
 };
 
-const ImagePicker: React.FC<Props> = ({ onImageSelected }) => {
+const ImagePicker: React.FC<Props> = ({ onImageSelected, formattedDate }) => {
     const [imageUri, setImageUri] = useState<string | null>(null);
     const [imgInput, setImgInput] = useState("");
 
@@ -23,9 +25,16 @@ const ImagePicker: React.FC<Props> = ({ onImageSelected }) => {
         });
     };
 
+    const handleImageUpload = () => {
+        alert(`${formattedDate}의 사진 업로드`);
+    };
+
     return (
         <View style={styles.container}>
-            <Button title="사진 선택" onPress={selectImage} />
+            <ThemedButton
+                title="사진 선택"
+                onPress={() => selectImage()}
+                />
             {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
             <ThemedInput
                 onChangeText={setImgInput}
@@ -33,6 +42,11 @@ const ImagePicker: React.FC<Props> = ({ onImageSelected }) => {
                 placeholder="설명을 입력하세요"
                 keyboardType="default"
                 style={{ marginTop: 12 }}
+            />
+            <ThemedButton
+                title="사진 업로드"
+                onPress={() => handleImageUpload()}
+                disabled={!imageUri}
             />
         </View>
     );
@@ -43,8 +57,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     image: {
-        width: 300,
-        height: 300,
+        width: '80%',
+        height: '80%',
         marginTop: 20,
         borderRadius: 10,
     },
