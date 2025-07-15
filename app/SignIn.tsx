@@ -13,7 +13,7 @@ export default function SignIn() {
   const [saveSignIn, setSaveSignIn] = useState(false);
 
   const handleSignIn = async() => {
-    console.log("로그인 시도:", { id, password });
+    console.log("로그인 시도:", { id, password }, `저장 여부: ${saveSignIn}`);
     try {
       const response = await axiosInstance.post('/signin', {id, password});
       console.log("로그인 성공:", response.data);
