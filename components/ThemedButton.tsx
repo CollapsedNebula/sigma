@@ -1,9 +1,9 @@
 import React from 'react';
-import { GestureResponderEvent, StyleSheet, Text, TextStyle, TouchableOpacity, ViewStyle } from 'react-native';
+import { StyleSheet, Text, TextStyle, TouchableOpacity, ViewStyle } from 'react-native';
 
 interface ThemedButtonProps {
   title: string;
-  onPress: (event: GestureResponderEvent) => void;
+  onPress: () => void;
   disabled?: boolean;
   style?: ViewStyle;
   textStyle?: TextStyle;

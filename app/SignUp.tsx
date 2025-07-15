@@ -1,17 +1,26 @@
-import { Link } from 'expo-router';
+import axiosInstance from '@/api/AxiosInstance';
+import { ThemedButton } from "@/components/ThemedButton";
+import { ThemedInput } from "@/components/ThemedInput";
+import { ThemedText } from "@/components/ThemedText";
+import { Link, Redirect } from 'expo-router';
 import { useState } from "react";
 import { View } from "react-native";
-import { ThemedButton } from "../components/ThemedButton";
-import { ThemedInput } from "../components/ThemedInput";
-import { ThemedText } from "../components/ThemedText";
 
 export default function SignIn() {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSignUp = () => {
+  const handleSignUp = async() => {
     console.log("회원가입 시도:", { id, password });
-  }
+    try {
+      const response = await axiosInstance.post('/signup', {id, password});
+      console.log("회원가입 성공:", response.data);
+      return <Redirect href="/SignIn" />;
+    } catch (error) {
+      console.error("회원가입 실패:", error);
+      alert("회원가입에 실패했습니다. 다시 시도해주세요.");
+    }
+  };
   
   return (
     <View
