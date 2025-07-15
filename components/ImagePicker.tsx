@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { Alert, Image, StyleSheet, View } from "react-native";
 import { launchImageLibrary } from "react-native-image-picker";
 import { ThemedButton } from "./ThemedButton";
 import { ThemedInput } from "./ThemedInput";
@@ -25,8 +25,21 @@ const ImagePicker: React.FC<Props> = ({ onImageSelected, formattedDate }) => {
         });
     };
 
-    const handleImageUpload = () => {
-        alert(`${formattedDate}의 사진 업로드`);
+    const handleImageUpload = async() => {
+        console.log(`${formattedDate}의 사진 업로드`);
+        if (!imageUri) {
+            Alert.alert("알림", "업로드할 사진을 선택해주세요.")
+            return;
+        }
+        try {
+            const fileType = response.assets[0].type
+            console.log("사진 업로드 성공:", formData);
+            alert("사진이 성공적으로 업로드되었습니다.");
+        } catch (error) {
+            console.error("사진 업로드 실패:", error);
+            alert("사진 업로드에 실패했습니다. 다시 시도해주세요.");
+        }
+        setImageUri(null);
     };
 
     return (
